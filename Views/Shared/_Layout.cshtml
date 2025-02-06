@@ -1,49 +1,183 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TestDev</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/TestDev.styles.css" asp-append-version="true" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/202404/images/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/202404/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/202404/images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="~/202404/images/favicons/site.webmanifest">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&amp;display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+          integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Plugins css start-->
+    <link type="text/css" href="~/202404/css/vendors/date-picker.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/202404/css/vendors/scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="/202404/css/vendors/datatables.css">
+    <link rel="stylesheet" type="text/css" href="/202404/css/vendors/flatpickr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel=" stylesheet" type="text/css" href="/202404/css/vendors/bootstrap.css">
+    <link href="~/202404/css/vendors/tree.css" rel="stylesheet" />
+    <link href="~/202404/js/flat-pickr/css/flatpickr.min.css" rel="stylesheet" />
+    <link href="~/202404/css/vendors/calendar.css" rel="stylesheet" />
+    <link href="~/202404/js/sieditor/core.css" rel="stylesheet" />
+    <!-- App css-->
+    <link rel="stylesheet" type="text/css" href="/202404/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/202404/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="~/202404/css/customForMySites.css">
+
+
+    <script src="~/202404/js/jquery.min.js"></script>
+
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TestDev</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    <div class="page-wrapper compact-wrapper" id="pageWrapper">
+        <div class="page-header">
+            <div class="header-wrapper row m-0">
+                <div class="header-logo-wrapper col-auto p-0">
+                    <div class="logo-wrapper"> <a href="index.html"><img class="img-fluid for-light" src="~/202404/images/logo_dark.png" alt="logo-light"><img class="img-fluid for-dark" src="~/202404/images/logo.png" alt="logo-dark"></a></div>
+                    <div class="toggle-sidebar"> <i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i></div>
+                </div>
+                <div class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0">
+                    <div>
+                        <a class="toggle-sidebar" href="#"> <i class="iconly-Category icli"> </i></a>
+                        <div class="d-flex align-items-center gap-2 ">
+                            <h4 class="f-w-600">Welcome Alex</h4><img class="mt-0" src="~/202404/images/hand.gif" alt="hand-gif">
+                        </div>
+                    </div>
+                    <div class="welcome-content d-xl-block d-none"><span class="text-truncate col-12">Here’s what’s happening with your store today. </span></div>
+                </div>
+                <div class="nav-right col-xxl-7 col-xl-6 col-md-7 col-8 pull-right right-header p-0 ms-auto">
+                    <ul class="nav-menus">
+                        <li>
+                            <div class="mode"><i class="moon" data-feather="moon"> </i></div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="profile-nav onhover-dropdown">
+                            <div class="media profile-media">
+                                <img class="b-r-10" src="~/202404/images/profile.png" alt="">
+                                <div class="media-body d-xxl-block d-none box-col-none">
+                                    
+                                        <div class="d-flex align-items-center gap-2"> <span> Chào mừng bạn </span><i class="middle fa fa-angle-down"> </i></div>
+                                    
+                                    <p class="mb-0 font-roboto">Tài khoản</p>
+                                </div>
+                            </div>
+                            <ul class="profile-dropdown onhover-show-div">
+                                
+                                    <li><a class="btn btn-pill btn-outline-primary btn-sm" href="/NguoiDung/login">Đăng nhập</a></li>
+                                
+                                
+                            </ul>
                         </li>
                     </ul>
                 </div>
+                <script class="result-template" type="text/x-handlebars-template">
+                    <div class="ProfileCard u-cf">
+                    <div class="ProfileCard-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-airplay m-0"><path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path><polygon points="12 15 17 21 7 21 12 15"></polygon></svg></div>
+                    <div class="ProfileCard-details">
+                    <div class="ProfileCard-realName">{{name}}</div>
+                    </div>
+                    </div>
+                </script>
+                <script class="empty-template" type="text/x-handlebars-template"><div class="EmptyMessage">Your search turned up 0 results. This most likely means the backend is down, yikes!</div></script>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - TestDev - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+        <div class=" page-body-wrapper">
+            <div class="sidebar-wrapper" data-layout="stroke-svg">
+                <div class="logo-wrapper">
+                    <a href="index.html"><img class="img-fluid" src="~/202404/logo.png" alt=""></a>
+                    <div class="back-btn"><i class="fa fa-angle-left"> </i></div>
+                    <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
+                </div>
+                <div class="logo-icon-wrapper"><a href="index.html"><img class="img-fluid" src="~/202404/logo-icon.png" alt=""></a></div>
+                <nav class="sidebar-main">
+                    <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
+                    <div id="sidebar-menu">
+                        <ul class="sidebar-links" id="simple-bar">
+                            <li class="back-btn">
+                                <a href="index.html"><img class="img-fluid" src="~/202404/logo-icon.png" alt=""></a>
+                                <div class="mobile-back text-end"> <span>Back </span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+                            </li>
+                            <li class="pin-title sidebar-main-title">
+                                <div>
+                                    <h6>Lựa chọn được ghim</h6>
+                                </div>
+                            </li>
+                            <li class="sidebar-main-title">
+                                <div>
+                                    <h6 class="lan-1">Quản lý sản phẩm</h6>
+                                </div>
+                            </li>
+                            <li class="sidebar-list">
+                                <i class="fa fa-thumb-tack"> </i>
+                                <a class="sidebar-link sidebar-title link-nav" href="/SanPham/Index">
+                                    <i class="fa fa-home" aria-hidden="true"></i>
+                                    <span class="ms-2">Sản phẩm</span>
+                                    <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                </a>
+                            </li>
+                            <li class="sidebar-list">
+                                <i class="fa fa-thumb-tack"> </i>
+                                <a class="sidebar-link sidebar-title link-nav" href="/LoaiSanPham/Index">
+                                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                    <span class="ms-2">Loại sản phẩm</span>
+                                    <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                </a>
+                            </li>
+
+                            
+
+                            
+                            
+                        </ul>
+                        <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
+                    </div>
+                </nav>
+            </div>
+            <div class="page-body">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <script src="~/202404/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="~/202404/js/vendor/feather.min.js"></script>
+    <script src="~/202404/js/vendor/feather-icon.js"></script>
+    <script src="~/202404/js/vendor/simplebar.js"></script>
+    <script src="~/202404/js/scrollbar/custom.js"></script>
+    <script src="/202404/js/config.js"></script>
+    <!-- Plugins JS start-->
+    <script src="/202404/js/sidebar-menu.js"></script>
+    <script src="~/202404/js/sidebar-pin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/202404/js/vendor/datepicker.js"></script>
+    <script src="~/202404/js/vendor/datepicker.en.js"></script>
+
+    <script src="~/202404/js/flat-pickr/js/flatpickr.js"></script>
+    <script src="~/202404/js/flat-pickr/js/vn.js"></script>
+
+    <script src="~/202404/js/si-utils.js"></script>
+    <script src="~/202404/js/vendor/jquery.dataTables.min.js"></script>
+    <script src="~/202404/js/vendor/tree.js"></script>
+    <script src="~/202404/js/vendor/notify.js"></script>
+    <script src="~/202404/js/calendar/fullcalendar.min.js"></script>
+
+
+    <!-- Plugins JS Ends-->
+    <!-- Theme js-->
+    <script src="/202404/js/script.js"></script>
+    <script src="/202404/js/theme-customizer/customizer.js"></script>
+
+    <script src="~/202404/js/sieditor/sieditor.js"></script>
+    <script type="text/javascript" src="~/202404/js/vm_ultils.js"></script>
 </body>
+
 </html>

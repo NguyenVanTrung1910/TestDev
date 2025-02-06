@@ -1,0 +1,350 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<style>
+    #data-source-4_processing {
+        display: none !important;
+    }
+
+    #data-source-4 i {
+        font-size: 25px;
+        padding-right: 5px;
+        color: var(--theme-deafult);
+    }
+
+</style>
+
+<div class="container-fluid">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-6">
+                <h4>Danh sách chuyến chạy</h4>
+            </div>
+            <div class="col-6 d-none d-md-block">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/chuyen/index">
+                            <svg class="stroke-icon">
+                                <use href="/202404/images/svg/icon-sprite.svg#stroke-home"></use>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">Chuyến</li>
+                    <li class="breadcrumb-item active">Danh sách chuyến</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row size-column">
+        <div class="col-12 box-col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row" id="dropdownParent">
+                        <div class="col-md-3 mb-2">
+                            <label class="form-label" for="search-input">Nhập biển số xe...</label>
+                            <input type="text" class="form-control" id="search-input" autocomplete="off">
+                        </div>
+
+                        <div class="col-md-2 mb-2">
+                            <label class="form-label">Lọc theo loại sản phẩm</label>
+                            <select id="LoaiSP" class="form-control " placeholder=""></select>
+
+                        </div>
+                        <div class="col-md-4 text-center mt-md-4">
+                            <button class="btn btn-primary" id="search-btn">Tìm kiếm</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row size-column">
+        <div class="col-12 box-col-12">
+            <div class="card">
+
+                <div class="card-body mt-2">
+                    <div class="table-responsive custom-scrollbar">
+                        <table class="display" id="data-source-4" style="width:100%">
+                        </table>
+                    </div>
+                </div>
+                <div class="card-header pb-3 py-1 card-no-border">
+                    <div class="row">
+                        <div class="col-12 mt-0 text-end">
+                            <button id="ThemMoi" type="button" data-permission="002002001"> Thêm mới</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function xemChuyen(Id) {
+        openModalWithApi("/Chuyen/View/" + Id, "xl");
+    };
+    function suaChuyen(Id) {
+        ChuyenHuong("external", "/SanPham/Edit/" + Id);
+    };
+    function xoaChuyen(Id) {
+
+
+        toggleButtonContainerLoading(Id);
+        showNotificationWithConfirm("",
+            () => {
+                $.ajax({
+                    url: '/SanPham/Delete/' + Id,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        toggleButtonContainerLoading(Id);
+                        showNotification("warning", "Xóa thành công")
+                        $('#search-btn').click();
+                    },
+                    error: function (xhr, status, error) {
+                        showNotification("danger", 'Đã có lỗi xảy ra:' + xhr?.responseJSON?.ex_message);
+                        toggleButtonContainerLoading(Id);
+                    }
+                });
+            },
+            () => {
+                toggleButtonContainerLoading(Id);
+            })
+
+
+
+    };
+
+    $(document).ready(function () {
+        var initialSelection = [];
+        $("#LoaiSP").registerSelect({
+            url: '/LoaiSanPham/GetPaged',
+            placeholder: "Chọn loại sản phẩm",
+            queryData: {
+            },
+            dropdownParent: "#dropdownParent",
+            initialSelection: initialSelection,
+            prepareDataRequest: function (params) {
+                return {
+                    Keyword: params.term,
+                    SearchIn: ["Ten"],
+                };
+            },
+            dataProcess: function (data) {
+                const results = data.data
+                    .sort((a, b) => a.Ten.localeCompare(b.Ten))
+                    .map(item => ({
+                        id: item.Id,
+                        text: item.Ten
+                    }));
+
+                return { results };
+            },
+        });
+        $("#DiaDiemLayDat").registerSelect({
+            url: '/DiaDiemLayDat/GetPaged',
+            placeholder: "Chọn địa điểm lấy đất",
+            queryData: {
+            },
+            dropdownParent: "#dropdownParent",
+            initialSelection: initialSelection,
+            prepareDataRequest: function (params) {
+                return {
+                    Keyword: params.term,
+                    SearchIn: ["TenDiaDiem"],
+                };
+            },
+            dataProcess: function (data) {
+                const results = data.data
+                    .sort((a, b) => a.TenDiaDiem.localeCompare(b.TenDiaDiem))
+                    .map(item => ({
+                        id: item.Id,
+                        text: item.TenDiaDiem
+                    }));
+
+                return { results };
+            },
+        });
+        $("#DiaDiemDo").registerSelect({
+            url: '/DiaDiemDo/GetPaged',
+            placeholder: "Chọn địa điểm lấy đất",
+            queryData: {
+            },
+            dropdownParent: "#dropdownParent",
+            initialSelection: initialSelection,
+            prepareDataRequest: function (params) {
+                return {
+                    Keyword: params.term,
+                    SearchIn: ["TenDiaDiem"],
+                };
+            },
+            dataProcess: function (data) {
+                const results = data.data
+                    .sort((a, b) => a.TenDiaDiem.localeCompare(b.TenDiaDiem))
+                    .map(item => ({
+                        id: item.Id,
+                        text: item.TenDiaDiem
+                    }));
+
+                return { results };
+            },
+        });
+        var dataGridInstance = $('#data-source-4').registerGrid({
+            "columns": [
+                {
+                    "data": 'STT',
+                    "title": "STT",
+                    "render": function (data, type, row, meta) {
+                        return Index = meta.row + meta.settings._iDisplayStart + 1;
+                    },
+                    "width": "30px",
+                    "orderable": false,
+                },
+                {
+
+                    "title": "Tên",
+                    "render": function (data, type, row) {
+                        return row.Ten ==null ? '' : `<span)'>${row.Ten}</span>`;                    },
+                    "orderable": false,
+
+                },
+                {
+
+                    "title": "Danh sách loại",
+                    "render": function (data, type, row) {
+                        return row.DSLoai =='' ? 'Không có' : `<span)'>${row.DSLoai}</span>`;                    },
+                    "orderable": false,
+
+                },
+                {
+
+                    "title": "Giá",
+                    "render": function (data, type, row) {
+                        return row.Gia ==null ? '' : `<span)'>${row.Gia}</span>`;
+                    },
+                    "orderable": false,
+
+                },
+                                {
+                    "data": 'NgayNhap',
+                    "title": "Ngày Nhập",
+                    "render": function (data, type, row) {
+                        return data == null ? '' : `<span>${new Date(row.NgayNhap).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>`;
+                    },
+                    "orderable": false,
+
+                },
+                {
+                    "data": '',
+                    "title": "Chức năng",
+                    "render": function (data, type, row) {
+
+                        var html = `<div class='button-container-in-grid button-container-${row.Id}'>`;
+                        html += `<a href='#' title="Sửa " data-permission="002003002" onclick='suaChuyen(${row.Id})'><i class="fa fa-pencil" aria-hidden="true"></i></a>`
+                        html += ` <a  title="Xóa" data-permission="002003003" onclick='xoaChuyen(${row.Id})'><i class="fa fa-trash-o" aria-hidden="true"></i></a>`
+                        return html += "</div>";
+
+                    },
+                    "width": "100px",
+                    "orderable": false,
+                }
+
+            ],
+            length: 20,
+            endpoint: "/SanPham/GetPaged",
+            prepareRequest: function (d) {
+                d.SearchIn = ["Ten"];
+                d.Keyword = $('#search-input').val();
+                d.LoaiSP = $('#LoaiSP').val();
+                var t_gridRequest = {
+                    "skip": d.start,
+                    "page": (d.start / d.length) + 1,
+                    "pageSize": d.length
+                };
+                d.t_gridRequest = JSON.stringify(t_gridRequest);
+                return d;
+            },
+            dataBound: function () {
+                $("#data-source-4 thead tr th:first-child").removeClass();
+                $("#data-source-4_info").hide();
+            }
+
+        });
+
+        $('#search-btn').registerButton({
+            type: 'primary',
+            icon: "fa fa-search",
+            clickHandler: function () {
+                return new Promise(function (resolve) {
+                    var grid = dataGridInstance;
+                    grid.page(0);//chuyển về trang đầu
+                    grid.ajax.reload(null, false);
+                    resolve();//cờ xác định kết thúc
+                });
+            }
+        });
+        $('#search-tu-ngay').datepicker({
+            language: 'vi',
+        });
+        $('#search-den-ngay').datepicker({
+            language: 'vi',
+        });
+        $('#exportExcel').registerButton({
+            type: 'info',
+            icon: "fa fa-file-excel-o",
+            clickHandler: function () {
+                var grid = dataGridInstance;
+                return new Promise(function (resolve, reject) {
+                    $.post("/Chuyen/ExportDataToExcel", {
+                        "SearchIn": ["BienSo"],
+                        "Keyword": $('#search-input').val(),
+                        "TuNgay": $('#search-tu-ngay').val(),
+                        "DenNgay": $('#search-den-ngay').val()
+                    })
+                        .done(function (data) {
+                            ChuyenHuong("external", `/Files/ExportExcel?file=${data}`, "new_tab")
+                            resolve(); // Kết thúc promise
+                        })
+                        .fail(function (xhr, status, error) {
+                            showNotification("danger", 'Đã có lỗi xảy ra:', error);
+                            reject(error); // Kết thúc promise với lỗi
+                        });
+                });
+
+            }
+        });
+
+        $("#search-input").enterKey(function () {
+            var button = $('#search-btn');
+            if (!button.hasClass("loading"))
+                $('#search-btn').click();
+        });
+
+        $('#datetime-local').datepicker({
+            language: 'vi',
+
+        })
+        $('#ThemMoi').registerButton({
+            type: 'primary',
+            icon: "fa fa-plus",
+            clickHandler: function () {
+                return new Promise(function (resolve) {
+                    ChuyenHuong("external", "/SanPham/Edit/" + 0)
+                    resolve();//cờ xác định kết thúc
+                });
+            }
+        });
+        // $('#NguoiChay').change(function () {
+        //     $('#search-btn').click();
+        // });
+
+    });
+</script>

@@ -1,0 +1,87 @@
+﻿[
+  {
+    "text": "Màn hình chính",
+    "ModerationStatus": "0",
+    "children": [
+      {
+        "text": "Bàn Làm việc",
+        "Icon": "fa fa-home",
+        "ModerationStatus": "0",
+        "children": [
+          {
+            "text": "quản trị",
+            "ModerationStatus": "0"
+          },
+          {
+            "text": "Người dùng",
+            "ModerationStatus": "0"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "DANH SÁCH CHỨC NĂNG",
+    "ModerationStatus": "0",
+    "children": [
+      {
+        "text": "Check in/Check out",
+        "ModerationStatus": "0",
+        "children": [
+
+        ]
+      },
+      {
+        "text": "Dự án",
+        "ModerationStatus": "1",
+        "children": [
+
+        ]
+      },
+      {
+        "text": "Công việc",
+        "ModerationStatus": "1",
+        "children": [
+        ]
+      }
+    ]
+  },
+  {
+    "text": "CHỨC NĂNG HỆ THỐNG",
+    "ModerationStatus": "1",
+    "children": [
+      {
+        "Icon": "fa fa-circle-o",
+        "text": "Vai trò",
+        "ModerationStatus": "1",
+        "children": [
+
+        ]
+      },
+      {
+        "Icon": "fa fa-circle-o",
+        "text": "Menu quản trị",
+        "ModerationStatus": "1",
+        "children": [
+
+        ]
+      },
+      {
+        "Icon": "fa fa-circle-o",
+        "text": "Quyền hạn",
+        "ModerationStatus": "1",
+        "children": [
+
+        ]
+      },
+      {
+        "Icon": "fa fa-circle-o",
+        "text": "Người dùng",
+        "ModerationStatus": "1",
+        "children": [
+
+        ]
+      }
+    ]
+  }
+]

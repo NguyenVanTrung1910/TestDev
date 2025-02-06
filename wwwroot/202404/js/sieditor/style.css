@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@media print {
+    body {
+        margin: 0 !important;
+    }
+}
+
+
+/*Kich thuoc chung cua editor*/
+.ck.ck-reset.ck-editor.ck-rounded-corners {
+    border: 1px solid;
+    border-color: var(--ck-color-base-border);
+}
+
+.ck.ck-toolbar>.ck-toolbar__items {
+    border: 0;
+    border-bottom: 1px solid var(--ck-color-base-border);
+    margin-bottom: 1px;
+}
+
+.ck-content {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+}
+.ck.ck-editor__main {
+    display: flex;
+    justify-content: center;
+}
+
+.ck-editor__editable:not(figcaption) {
+    width: 100%;
+    min-height: 576px;
+    margin-bottom: 1px;
+}
+
+.ck-content td{
+    width: 100%;
+}
+
+
+.ck.ck-videos-form,
+.ck.ck-audios-form {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    gap: 1em;
+    /* Khoáº£ng cÃ¡ch giá»¯a cÃ¡c hÃ ng */
+}
+
+.ck.ck-videos-form .ck-button-row,
+.ck.ck-audios-form .ck-button-row {
+    display: flex;
+    gap: 0.5em;
+    /* Khoáº£ng cÃ¡ch giá»¯a cÃ¡c pháº§n tá»­ trong má»™t hÃ ng */
+    align-items: flex-start;
+    /* CÄƒn chá»‰nh cÃ¡c pháº§n tá»­ theo Ä‘á»‰nh */
+}
+
+/* HÃ ng 1: Input vÃ  nÃºt */
+.ck.ck-videos-form .ck-button-row:nth-child(1),
+.ck.ck-audios-form .ck-button-row:nth-child(1) {
+    justify-content: space-between;
+}
+
+.ck.ck-videos-form .ck-button-row:nth-child(1) .ck-labeled-field-view,
+.ck.ck-audios-form .ck-button-row:nth-child(1) .ck-labeled-field-view {
+    flex-grow: 1;
+    margin-right: 0.5em;
+}
+
+/* HÃ ng 2: 2 input number */
+.ck.ck-videos-form .ck-button-row:nth-child(2),
+.ck.ck-audios-form .ck-button-row:nth-child(2) {
+    justify-content: space-between;
+}
+
+.ck.ck-videos-form .ck-button-row:nth-child(2) .ck-labeled-field-view,
+.ck.ck-audios-form .ck-button-row:nth-child(2) .ck-labeled-field-view {
+    width: calc(50% - 0.25em);
+    /* 50% trá»« Ä‘i ná»­a khoáº£ng cÃ¡ch giá»¯a */
+}
+
+/* HÃ ng 3: 2 button */
+.ck.ck-videos-form .ck-button-row:nth-child(3),
+.ck.ck-audios-form .ck-button-row:nth-child(3) {
+    justify-content: flex-end;
+}
+
+/* Äáº£m báº£o cÃ¡c input cÃ³ chiá»u rá»™ng Ä‘á»“ng nháº¥t */
+.ck.ck-videos-form .ck-labeled-field-view .ck-input,
+.ck.ck-audios-form .ck-labeled-field-view .ck-input {
+    width: 100%;
+}
+
+/* Äiá»u chá»‰nh kÃ­ch thÆ°á»›c nÃºt */
+.ck.ck-videos-form .ck-button,
+.ck.ck-audios-form .ck-button {
+    padding: 0.5em 1em;
+}
+
+.ck.ck-videos-form small.ck.ck-subtitle,
+.ck.ck-audios-form small.ck.ck-subtitle {
+    padding: 5px;
+    font-style: italic;
+    color: red;
+}
+
+
+
+/* Style khá»‘i Ä‘áº¿m*/
+.ck.ck-word-count {
+    display: flex;
+    justify-content: end;
+}
+
+.ck-word-count__words,
+.ck-word-count__characters {
+    margin: 5px 20px 5px 0;
+    font-size: 17px;
+    line-height: 17px;
+    font-weight: 700;
+}

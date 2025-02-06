@@ -1,0 +1,285 @@
+﻿@model TestDev.Models.SanPham
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-6">
+                <h4>
+                    @if (Model.Id > 0)
+                    {
+                        <text>Sửa chuyến</text>
+                    }
+                    else
+                    {
+                        <text>Thêm mới chuyến</text>
+                    }
+                </h4>
+            </div>
+            <div class="col-6 d-none d-md-block">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/chuyen/index">
+                            <svg class="stroke-icon">
+                                <use href="/202404/images/svg/icon-sprite.svg#stroke-home"></use>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">Chuyến</li>
+                    <li class="breadcrumb-item active">
+                        @if (Model.Id > 0)
+                        {
+                            <text>Sửa chuyến</text>
+                        }
+                        else
+                        {
+                            <text>Thêm mới chuyến</text>
+                        }
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="@(Model.Id == 0 ? "Insert" : "Update")" asp-controller="SanPham" method="post" class="card needs-validation">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <!-- Tiêu đề bên trái -->
+                    <h4 class="mb-0">Thông tin bản ghi</h4>
+
+                </div>
+
+                <div class="card-body custom-input">
+                    <div class="row" id="dropdownParent">
+                        @if (Model.Id > 0)
+                        {
+                            <input asp-for="Id" type="hidden" />
+                        }
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Ten" class="form-label">Tên</label>
+                                <input asp-for="Ten" class="form-control " placeholder="Tên" required/>
+                                <span asp-validation-for="Ten" class="text-danger"></span>
+                            </div>
+                        </div>
+                                <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Gia" class="form-label">Giá</label>
+                                <input asp-for="Gia" class="form-control " placeholder="Giá" />
+                                <span asp-validation-for="Gia" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                            <label class="form-label">Chọn loại cho sản phẩm </label>
+                            <select id="LoaiSP" name="LoaiSP" class="form-control " placeholder=""></select>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="NgayNhap" class="form-label">Ngày chạy</label>
+                                @if (Model.Id > 0)
+                                {
+                                    <input id="NgayChay" name="NgayChay" type="text" class="form-control" value="@Model.NgayNhap.ToString("dd/MM/yyyy")" placeholder="Người chạy" required />
+                                }
+                                else
+                                {
+                                    <input id="NgayChay" name="NgayChay" type="text" class="form-control" value="@DateTime.Now.AddDays(1).ToString("dd/MM/yyyy")" placeholder="Người chạy" required />
+                                }
+                                <span asp-validation-for="NgayNhap" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+
+                        <div class="col-md-12 text-end">
+                            <button id="save" type="button">Lưu</button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+</div>
+<script>
+    function convertToDateTimeLocal(datetimeStr) {
+        var dateParts = datetimeStr.split('/');
+        var year = dateParts[2];
+        var month = dateParts[1];
+        var day = dateParts[0];
+        //return `${year}-${month}-${day}T${00}:${00}`;
+        return `${month}/${day}/${year}`;
+    }
+
+    $(document).ready(function () {
+        var initialSelection = [];
+        $("#LoaiSP").registerSelect({
+            url: '/LoaiSanPham/GetPaged',
+            placeholder: "Chọn loại sản phẩm",
+            queryData: {
+            },
+            dropdownParent: "#dropdownParent",
+            initialSelection: initialSelection,
+            prepareDataRequest: function (params) {
+                return {
+                    Keyword: params.term,
+                    SearchIn: ["Ten"],
+                };
+            },
+            dataProcess: function (data) {
+                const results = data.data
+                    .sort((a, b) => a.Ten.localeCompare(b.Ten))
+                    .map(item => ({
+                        id: item.Id,
+                        text: item.Ten
+                    }));
+
+                return { results };
+            },
+        });
+        $('#checkbox').on('change', function () {
+            if (this.checked) {
+                $('.nc').show();
+            } else {
+                $('.nc').hide();
+            }
+        });
+        $('#NgayChay').datepicker({
+            language: 'vi',
+            defaultDate: new Date(),
+            autoClose: true
+        });
+        $('#save').registerButton({
+            type: 'primary',
+            icon: "fa fa-plus",
+            clickHandler: function () {
+                return new Promise(function (resolve) {
+                    var form = $("form.needs-validation")[0];
+                    if (!form.checkValidity()) {
+                        resolve();//Đặt cờ thành công
+                        event.preventDefault();
+                        event.stopPropagation();
+                    } else {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        let NgayChay = $("#NgayChay").val().trim();
+                        if (NgayChay && !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(NgayChay)) {
+                            $("#NgayChay").val(convertToDateTimeLocal(NgayChay));
+                        }
+
+                        var data = new FormData(form);
+                        var xhr = new XMLHttpRequest();
+                        xhr.open(form.method, form.action, true);
+                        xhr.onload = function () {
+                            resolve();//Đặt cờ thành công
+                            if (xhr.status === 200) {
+                                $("#NgayChay").val(NgayChay);
+                                
+                                ChuyenHuong("backWithReloadGrid", null, null, "data-source-4");
+                            } else {
+                                $("#NgayChay").val(NgayChay);
+                                showNotification("warning", "Thao tác thất bại: " + JSON.parse(xhr?.response).ex_message)
+                            }
+                        };
+                        xhr.send(data);
+
+                    };
+                    form.classList.add('was-validated');
+
+
+                });
+            }
+        });
+
+
+
+
+
+
+        var initialSelection = [];
+        $("#NguoiDungId").registerSelect({
+            url: '/NguoiDung/GetPaged',
+            placeholder: "Chọn người chạy",
+            queryData: {
+            },
+            dropdownParent: "#dropdownParent",
+            initialSelection: initialSelection,
+            prepareDataRequest: function (params) {
+                return {
+                    Keyword: params.term,
+                    SearchIn: ["TenNguoiDung"],
+                };
+            },
+            dataProcess: function (data) {
+                const results = data.data
+                    .sort((a, b) => a.TenNguoiDung.localeCompare(b.TenNguoiDung))
+                    .map(item => ({
+                        id: item.Id,
+                        text: item.TenNguoiDung
+                    }));
+
+                return { results };
+            },
+        });
+        $("#DiaDiemLayDatId").registerSelect({
+            url: '/DiaDiemLayDat/GetPaged',
+            placeholder: "Chọn địa điểm lấy đất",
+            queryData: {
+            },
+            dropdownParent: "#dropdownParent",
+            initialSelection: initialSelection,
+            prepareDataRequest: function (params) {
+                return {
+                    Keyword: params.term,
+                    SearchIn: ["TenDiaDiem"],
+                };
+            },
+            dataProcess: function (data) {
+                const results = data.data
+                    .sort((a, b) => a.TenDiaDiem.localeCompare(b.TenDiaDiem))
+                    .map(item => ({
+                        id: item.Id,
+                        text: item.TenDiaDiem
+                    }));
+
+                return { results };
+            },
+        });
+        $("#DiaDiemDoId").registerSelect({
+            url: '/DiaDiemDo/GetPaged',
+            placeholder: "Chọn địa điểm đổ",
+            queryData: {
+            },
+            dropdownParent: "#dropdownParent",
+            initialSelection: initialSelection,
+            prepareDataRequest: function (params) {
+                return {
+                    Keyword: params.term,
+                    SearchIn: ["TenDiaDiem"],
+                };
+            },
+            dataProcess: function (data) {
+                const results = data.data
+                    .sort((a, b) => a.TenDiaDiem.localeCompare(b.TenDiaDiem))
+                    .map(item => ({
+                        id: item.Id,
+                        text: item.TenDiaDiem
+                    }));
+
+                return { results };
+            },
+        });
+
+    });
+
+</script>
